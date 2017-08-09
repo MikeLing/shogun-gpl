@@ -216,7 +216,7 @@ bool CWDSVMOcas::train_machine(CFeatures* data)
 /////speed tests/////
 	/*float64_t* tmp = SG_MALLOC(float64_t, num_vec);
 	float64_t start=CTime::get_curtime();
-	CMath::random_vector(w, w_dim, (float32_t) 0, (float32_t) 1000);
+	SGVector<float32_t>::random_vector(w, w_dim, (float32_t) 0, (float32_t) 1000);
 	compute_output(tmp, this);
 	start=CTime::get_curtime()-start;
 	SG_PRINT("timing:%f\n", start)
