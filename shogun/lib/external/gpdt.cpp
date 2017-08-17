@@ -117,13 +117,13 @@ QPproblem::~QPproblem()
 /******************************************************************************/
 void QPproblem::copy_subproblem(QPproblem* dst, QPproblem* p, int32_t len, int32_t *perm)
 {
-  int32_t k;
+  index_t k;
 
   *dst=*p;
   dst->ell = len;
 
   dst->KER->SetSubproblem(p->KER, len, perm);
-  dst->y = SG_MALLOC(int32_t, len);
+  dst->y = SG_MALLOC(index_t, len);
   for (k = 0; k < len; k++)
       dst->y[k] = p->y[perm[k]];
 }

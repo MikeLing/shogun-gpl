@@ -44,7 +44,7 @@ public:
   /** ell */
   int32_t     ell;
   /** y */
-  int32_t    *y;
+  index_t    *y;
   /** delta sv */
   float64_t DELTAsv;
   /** q */

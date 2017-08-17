@@ -19,6 +19,7 @@
 #define EPPHQ1_SLEP
 
 #include <shogun/lib/config.h>
+#include <shogun/lib/common.h>
 #ifdef USE_GPL_SHOGUN
 
 /* -------------------------- Function eplb -----------------------------
@@ -42,7 +43,7 @@
 
    -------------------------- Function eplb -----------------------------
    */
-void eplb(double * x, double *root, int * steps, double * v,int n, double z, double lambda0);
+void eplb(double * x, double *root, index_t * steps, double * v,index_t n, double z, double lambda0);
 
 /* -------------------------- Function epp1 -----------------------------
 
@@ -59,7 +60,7 @@ void eplb(double * x, double *root, int * steps, double * v,int n, double z, dou
 
    -------------------------- Function epp1 -----------------------------
    */
-void  epp1(double *x, double *v, int n, double rho);
+void  epp1(double *x, double *v, index_t n, double rho);
 
 /* -------------------------- Function epp2 -----------------------------
 
@@ -76,7 +77,7 @@ void  epp1(double *x, double *v, int n, double rho);
 
    -------------------------- Function epp2 -----------------------------
    */
-void  epp2(double *x, double *v, int n, double rho);
+void  epp2(double *x, double *v, index_t n, double rho);
 
 /* -------------------------- Function eppInf -----------------------------
 
@@ -91,7 +92,7 @@ void  epp2(double *x, double *v, int n, double rho);
 
    -------------------------- Function eppInf -----------------------------
    */
-void  eppInf(double *x, double * c, int * iter_step, double *v,  int n, double rho, double c0);
+void  eppInf(double *x, double * c, index_t * iter_step, double *v,  index_t n, double rho, double c0);
 
 /* -------------------------- Function zerofind -----------------------------
  
@@ -113,7 +114,7 @@ void  eppInf(double *x, double * c, int * iter_step, double *v,  int n, double r
 
    -------------------------- Function zerofind -----------------------------
    */
-void zerofind(double *root, int * iterStep, double v, double p, double c, double x0);
+void zerofind(double *root, index_t * iterStep, double v, double p, double c, double x0);
 
 /* -------------------------- Function norm -----------------------------
 
@@ -121,7 +122,7 @@ void zerofind(double *root, int * iterStep, double v, double p, double c, double
 
    -------------------------- Function norm -----------------------------
    */
-double norm(double * v, double p, int n);
+double norm(double * v, double p, index_t n);
 
 /* -------------------------- Function eppInf -----------------------------
 
@@ -136,7 +137,7 @@ double norm(double * v, double p, int n);
 
    -------------------------- Function eppInf -----------------------------
    */
-void  eppO(double *x, double * cc, int * iter_step, double *v,  int n, double rho, double p);
+void  eppO(double *x, double * cc, index_t * iter_step, double *v,  int n, double rho, double p);
 
 /* -------------------------- Function epp -----------------------------
 
@@ -151,7 +152,7 @@ void  eppO(double *x, double * cc, int * iter_step, double *v,  int n, double rh
 
    -------------------------- Function epp -----------------------------
    */
-void epp(double *x, double * c, int * iter_step, double * v, int n, double rho, double p, double c0);
+void epp(double *x, double * c, index_t * iter_step, double * v, index_t n, double rho, double p, double c0);
 #endif //USE_GPL_SHOGUN
 #endif   /* ----- #ifndef EPPHQ1_SLEP  ----- */
 

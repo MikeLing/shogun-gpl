@@ -163,7 +163,7 @@ bool CMultitaskLogisticRegression::train_locked_implementation(SGVector<index_t>
 	return true;
 }
 
-float64_t CMultitaskLogisticRegression::apply_one(int32_t i)
+float64_t CMultitaskLogisticRegression::apply_one(index_t i)
 {
 	float64_t dot = features->dense_dot(i,m_tasks_w.get_column_vector(m_current_task),m_tasks_w.num_rows);
 	//float64_t ep = CMath::exp(-(dot + m_tasks_c[m_current_task]));

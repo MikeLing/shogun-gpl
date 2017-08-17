@@ -130,20 +130,20 @@ class CWDSVMOcas : public CMachine
 		 *
 		 * @param sz buffer size
 		 */
-		inline void set_bufsize(int32_t sz) { bufsize=sz; }
+		inline void set_bufsize(index_t sz) { bufsize=sz; }
 
 		/** get buffer size
 		 *
 		 * @return buffer size
 		 */
-		inline int32_t get_bufsize() { return bufsize; }
+		inline index_t get_bufsize() { return bufsize; }
 
 		/** set degree
 		 *
 		 * @param d degree
 		 * @param from_d from degree
 		 */
-		inline void set_degree(int32_t d, int32_t from_d)
+		inline void set_degree(index_t d, index_t from_d)
 		{
 			degree=d;
 			from_degree=from_d;
@@ -153,7 +153,7 @@ class CWDSVMOcas : public CMachine
 		 *
 		 * @return degree
 		 */
-		inline int32_t get_degree() { return degree; }
+		inline index_t get_degree() { return degree; }
 
 		/** classify objects
 		 * for binary classification problems
@@ -176,24 +176,24 @@ class CWDSVMOcas : public CMachine
 		 * @param num number of example to classify
 		 * @return classified result
 		 */
-		virtual float64_t apply_one(int32_t num)
+		virtual float64_t apply_one(index_t num)
 		{
 			ASSERT(features)
 			if (!wd_weights)
 				set_wd_weights();
 
-			int32_t len=0;
+			index_t len=0;
 			float64_t sum=0;
 			bool free_vec;
 			uint8_t* vec=features->get_feature_vector(num, len, free_vec);
 			//SG_INFO("len %d, string_length %d\n", len, string_length)
 			ASSERT(len==string_length)
 
-			for (int32_t j=0; j<string_length; j++)
+			for (auto j=0; j<string_length; j++)
 			{
-				int32_t offs=w_dim_single_char*j;
-				int32_t val=0;
-				for (int32_t k=0; (j+k<string_length) && (k<degree); k++)
+				index_t offs=w_dim_single_char*j;
+				index_t val=0;
+				for (auto k=0; (j+k<string_length) && (k<degree); k++)
 				{
 					val=val*alphabet_size + vec[j+k];
 					sum+=wd_weights[k] * w[offs+val];
@@ -209,7 +209,7 @@ class CWDSVMOcas : public CMachine
 		{
 			ASSERT(features)
 			normalization_const=0;
-			for (int32_t i=0; i<degree; i++)
+			for (auto i=0; i<degree; i++)
 				normalization_const+=(string_length-i)*wd_weights[i]*wd_weights[i];
 
 			normalization_const=CMath::sqrt(normalization_const);
@@ -235,7 +235,7 @@ class CWDSVMOcas : public CMachine
 		 *
 		 * @return w_dim_single_c
 		 */
-		int32_t set_wd_weights();
+		index_t set_wd_weights();
 
 		/** compute W
 		 *
@@ -325,7 +325,7 @@ class CWDSVMOcas : public CMachine
 		/** if bias shall be used */
 		bool use_bias;
 		/** buffer size */
-		int32_t bufsize;
+		index_t bufsize;
 		/** C1 */
 		float64_t C1;
 		/** C2 */
@@ -336,17 +336,17 @@ class CWDSVMOcas : public CMachine
 		E_SVM_TYPE method;
 
 		/** degree */
-		int32_t degree;
+		index_t degree;
 		/** from degree */
-		int32_t from_degree;
+		index_t from_degree;
 		/** wd weights */
 		float32_t* wd_weights;
 		/** num vectors */
-		int32_t num_vec;
+		index_t num_vec;
 		/** length of string in vector */
-		int32_t string_length;
+		index_t string_length;
 		/** size of alphabet */
-		int32_t alphabet_size;
+		index_t alphabet_size;
 
 		/** normalization const */
 		float64_t normalization_const;
@@ -356,11 +356,11 @@ class CWDSVMOcas : public CMachine
 		/** old_bias */
 		float64_t old_bias;
 		/** w offsets */
-		int32_t* w_offsets;
+		index_t* w_offsets;
 		/** w dim */
-		int32_t w_dim;
+		index_t w_dim;
 		/** w dim of a single char */
-		int32_t w_dim_single_char;
+		index_t w_dim_single_char;
 		/** w */
 		float32_t* w;
 		/** old w*/

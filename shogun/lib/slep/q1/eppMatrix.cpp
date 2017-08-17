@@ -22,15 +22,15 @@
 #include <time.h>
 #include <math.h>
 
-void eppMatrix(double *X, double * V, int k, int n, double rho, double p)
+void eppMatrix(double *X, double * V, index_t k, index_t n, double rho, double p)
 {
-    int i, j, *iter_step;
+    index_t i, j, *iter_step;
     double *v, *x;
     double c0, c;
 
     v=(double *)malloc(sizeof(double)*n);
     x=(double *)malloc(sizeof(double)*n);
-    iter_step=(int *)malloc(sizeof(int)*2);
+    iter_step=(index_t *)malloc(sizeof(index_t)*2);
 
     /*
      *X and V are k x n matrices in matlab, stored in column priority manner

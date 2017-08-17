@@ -48,7 +48,7 @@ bool CGPBTSVM::train_machine(CFeatures* data)
 		kernel->init(data, data);
 	}
 
-	SGVector<int32_t> lab=((CBinaryLabels*) m_labels)->get_int_labels();
+	auto lab=((CBinaryLabels*) m_labels)->get_int_labels();
 	prob.KER=new sKernel(kernel, lab.vlen);
 	prob.y=lab.vector;
 	prob.ell=lab.vlen;

@@ -27,16 +27,16 @@
 #define innerIter 1000
 #define outerIter 1000
 
-void eplb(double * x, double *root, int * steps, double * v,int n, double z, double lambda0)
+void eplb(double * x, double *root, index_t * steps, double * v,index_t n, double z, double lambda0)
 {
 
-	int i, j, flag=0;
-	int rho_1, rho_2, rho, rho_T, rho_S;
-	int V_i_b, V_i_e, V_i;
+	index_t i, j, flag=0;
+	index_t rho_1, rho_2, rho, rho_T, rho_S;
+	index_t V_i_b, V_i_e, V_i;
 	double lambda_1, lambda_2, lambda_T, lambda_S, lambda;
 	double s_1, s_2, s, s_T, s_S, v_max, temp;
 	double f_lambda_1, f_lambda_2, f_lambda, f_lambda_T, f_lambda_S;
-	int iter_step=0;
+	index_t iter_step=0;
 
 	/* find the maximal absolute value in v
 	 * and copy the (absolute) values from v to x
@@ -296,9 +296,9 @@ void eplb(double * x, double *root, int * steps, double * v,int n, double z, dou
 	*steps=iter_step;
 }
 
-void  epp1(double *x, double *v, int n, double rho)
+void  epp1(double *x, double *v, index_t n, double rho)
 {
-	int i;
+	index_t i;
 
 	/*
 	   we assume rho>=0
@@ -315,9 +315,9 @@ void  epp1(double *x, double *v, int n, double rho)
 	}
 }
 
-void  epp2(double *x, double *v, int n, double rho)
+void  epp2(double *x, double *v, index_t n, double rho)
 {
-	int i;
+	index_t i;
 	double v2=0, ratio;
 
 	/*
@@ -339,9 +339,9 @@ void  epp2(double *x, double *v, int n, double rho)
 	}
 }
 
-void  eppInf(double *x, double * c, int * iter_step, double *v,  int n, double rho, double c0)
+void  eppInf(double *x, double * c, index_t * iter_step, double *v,  index_t n, double rho, double c0)
 {
-	int i, steps;
+	index_t i, steps;
 
 	/*
 	   we assume rho>=0
@@ -356,10 +356,10 @@ void  eppInf(double *x, double * c, int * iter_step, double *v,  int n, double r
 	iter_step[1]=0;
 }
 
-void zerofind(double *root, int * iterStep, double v, double p, double c, double x0)
+void zerofind(double *root, index_t * iterStep, double v, double p, double c, double x0)
 {
 	double x, f, fprime, p1=p-1, pp;
-	int step=0;
+	index_t step=0;
 
 
 	if (v==0){
@@ -451,9 +451,9 @@ void zerofind(double *root, int * iterStep, double v, double p, double c, double
 	   */
 }
 
-double norm(double * v, double p, int n)
+double norm(double * v, double p, index_t n)
 {
-	int i;
+	index_t i;
 	double t=0;
 
 
@@ -468,17 +468,17 @@ double norm(double * v, double p, int n)
 	return( pow(t, 1/p) );
 };
 
-void eppO(double *x, double * cc, int * iter_step, double *v,  int n, double rho, double p)
+void eppO(double *x, double * cc, index_t * iter_step, double *v,  index_t n, double rho, double p)
 {
-	int i, *flag, bisStep, newtonStep=0, totoalStep=0;
+	index_t i, *flag, bisStep, newtonStep=0, totoalStep=0;
 	double vq=0, epsilon, vmax=0, vmin=1e10; /* we assume that the minimal value in |v| is less than 1e10*/
 	double q=1/(1-1/p), c, c1, c2, root, f, xp;
 
 	double x_diff=0; /* this value denotes the maximal difference of the x values computed from c1 and c2*/
 	double temp;
-	int p_n=1; /* p_n indicates the previous phi(c) is positive or negative*/
+	index_t p_n=1; /* p_n indicates the previous phi(c) is positive or negative*/
 
-	flag=(int *)malloc(sizeof(int)*n);
+	flag=(index_t *)malloc(sizeof(index_t)*n);
 
 	/*
 	   compute vq, the q-norm of v
@@ -663,7 +663,7 @@ void eppO(double *x, double * cc, int * iter_step, double *v,  int n, double rho
 	iter_step[1]=totoalStep;
 }
 
-void epp(double *x, double * c, int * iter_step, double * v, int n, double rho, double p, double c0){
+void epp(double *x, double * c, index_t * iter_step, double * v, index_t n, double rho, double p, double c0){
 	if (rho <0){
 		printf("\n rho should be non-negative!");
 		exit(1);

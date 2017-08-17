@@ -33,8 +33,8 @@ struct wdocas_thread_params_output
 	int32_t* val;
 	float64_t* output;
 	CWDSVMOcas* wdocas;
-	int32_t start;
-	int32_t end;
+	index_t start;
+	index_t end;
 };
 
 struct wdocas_thread_params_add
@@ -42,8 +42,8 @@ struct wdocas_thread_params_add
 	CWDSVMOcas* wdocas;
 	float32_t* new_a;
 	uint32_t* new_cut;
-	int32_t start;
-	int32_t end;
+	index_t start;
+	index_t end;
 	uint32_t cut_length;
 };
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -143,16 +143,16 @@ SGVector<float64_t> CWDSVMOcas::apply_get_outputs(CFeatures* data)
 	return outputs;
 }
 
-int32_t CWDSVMOcas::set_wd_weights()
+index_t CWDSVMOcas::set_wd_weights()
 {
 	ASSERT(degree>0 && degree<=8)
 	SG_FREE(wd_weights);
 	wd_weights=SG_MALLOC(float32_t, degree);
 	SG_FREE(w_offsets);
-	w_offsets=SG_MALLOC(int32_t, degree);
-	int32_t w_dim_single_c=0;
+	w_offsets=SG_MALLOC(index_t, degree);
+	index_t w_dim_single_c=0;
 
-	for (int32_t i=0; i<degree; i++)
+	for (auto i=0; i<degree; i++)
 	{
 		w_offsets[i]=CMath::pow(alphabet_size, i+1);
 		wd_weights[i]=sqrt(2.0*(from_degree-i)/(from_degree*(from_degree+1)));
@@ -303,17 +303,17 @@ void* CWDSVMOcas::add_new_cut_helper( void* ptr)
 {
 	wdocas_thread_params_add* p = (wdocas_thread_params_add*) ptr;
 	CWDSVMOcas* o = p->wdocas;
-	int32_t start = p->start;
-	int32_t end = p->end;
-	int32_t string_length = o->string_length;
+	index_t start = p->start;
+	index_t end = p->end;
+	index_t string_length = o->string_length;
 	//uint32_t nDim=(uint32_t) o->w_dim;
 	uint32_t cut_length=p->cut_length;
 	uint32_t* new_cut=p->new_cut;
-	int32_t* w_offsets = o->w_offsets;
+	index_t* w_offsets = o->w_offsets;
 	float64_t* y = o->lab;
-	int32_t alphabet_size = o->alphabet_size;
+	index_t alphabet_size = o->alphabet_size;
 	float32_t* wd_weights = o->wd_weights;
-	int32_t degree = o->degree;
+	index_t degree = o->degree;
 	CStringFeatures<uint8_t>* f = o->features;
 	float64_t normalization_const = o->normalization_const;
 
@@ -322,15 +322,15 @@ void* CWDSVMOcas::add_new_cut_helper( void* ptr)
 	//float32_t* new_a = SG_MALLOC(float32_t, nDim);
 	//memset(new_a, 0, sizeof(float32_t)*nDim);
 
-	int32_t* val=SG_MALLOC(int32_t, cut_length);
-	for (int32_t j=start; j<end; j++)
+	auto* val=SG_MALLOC(index_t, cut_length);
+	for (auto j=start; j<end; j++)
 	{
-		int32_t offs=o->w_dim_single_char*j;
-		memset(val,0,sizeof(int32_t)*cut_length);
-		int32_t lim=CMath::min(degree, string_length-j);
-		int32_t len;
+		index_t offs=o->w_dim_single_char*j;
+		memset(val,0,sizeof(index_t)*cut_length);
+		auto lim=CMath::min(degree, string_length-j);
+		index_t len;
 
-		for (int32_t k=0; k<lim; k++)
+		for (auto k=0; k<lim; k++)
 		{
 			bool free_vec;
 			uint8_t* vec = f->get_feature_vector(j+k, len, free_vec);
@@ -367,7 +367,7 @@ int CWDSVMOcas::add_new_cut(
 	wdocas_thread_params_add* params_add=SG_MALLOC(wdocas_thread_params_add, o->parallel->get_num_threads());
 	pthread_t* threads=SG_MALLOC(pthread_t, o->parallel->get_num_threads());
 
-	int32_t string_length = o->string_length;
+	index_t string_length = o->string_length;
 	int32_t t;
 	int32_t nthreads=o->parallel->get_num_threads()-1;
 	int32_t step= string_length/o->parallel->get_num_threads();
@@ -453,18 +453,18 @@ void* CWDSVMOcas::compute_output_helper(void* ptr)
 {
 	wdocas_thread_params_output* p = (wdocas_thread_params_output*) ptr;
 	CWDSVMOcas* o = p->wdocas;
-	int32_t start = p->start;
-	int32_t end = p->end;
+	index_t start = p->start;
+	index_t end = p->end;
 	float32_t* out = p->out;
 	float64_t* output = p->output;
 	int32_t* val = p->val;
 
 	CStringFeatures<uint8_t>* f=o->get_features();
 
-	int32_t degree = o->degree;
-	int32_t string_length = o->string_length;
-	int32_t alphabet_size = o->alphabet_size;
-	int32_t* w_offsets = o->w_offsets;
+	index_t degree = o->degree;
+	index_t string_length = o->string_length;
+	index_t alphabet_size = o->alphabet_size;
+	index_t* w_offsets = o->w_offsets;
 	float32_t* wd_weights = o->wd_weights;
 	float32_t* w= o->w;
 
@@ -472,22 +472,22 @@ void* CWDSVMOcas::compute_output_helper(void* ptr)
 	float64_t normalization_const = o->normalization_const;
 
 
-	for (int32_t j=0; j<string_length; j++)
+	for (auto j=0; j<string_length; j++)
 	{
-		int32_t offs=o->w_dim_single_char*j;
-		for (int32_t i=start ; i<end; i++)
+		index_t offs=o->w_dim_single_char*j;
+		for (auto i=start ; i<end; i++)
 			val[i]=0;
 
-		int32_t lim=CMath::min(degree, string_length-j);
-		int32_t len;
+		auto lim=CMath::min(degree, string_length-j);
+		index_t len;
 
-		for (int32_t k=0; k<lim; k++)
+		for (auto k=0; k<lim; k++)
 		{
 			bool free_vec;
 			uint8_t* vec=f->get_feature_vector(j+k, len, free_vec);
 			float32_t wd = wd_weights[k];
 
-			for (int32_t i=start; i<end; i++) // quite fast 1.9s
+			for (auto i=start; i<end; i++) // quite fast 1.9s
 			{
 				val[i]=val[i]*alphabet_size + vec[i];
 				out[i]+=wd*w[offs+val[i]];
@@ -533,7 +533,7 @@ void* CWDSVMOcas::compute_output_helper(void* ptr)
 		}
 	}
 
-	for (int32_t i=start; i<end; i++)
+	for (auto i=start; i<end; i++)
 		output[i]=y[i]*o->bias + out[i]*y[i]/normalization_const;
 
 	//CMath::display_vector(o->w, o->w_dim, "w");

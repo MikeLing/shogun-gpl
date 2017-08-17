@@ -47,10 +47,10 @@ void CDistantSegmentsKernel::init()
 	SG_ADD(&m_theta, "theta", "Theta parameter of the DS-Kernel", MS_AVAILABLE);
 }
 
-float64_t CDistantSegmentsKernel::compute(int32_t idx_a, int32_t idx_b)
+float64_t CDistantSegmentsKernel::compute(index_t idx_a, index_t idx_b)
 {
 	bool free_a, free_b;
-	int32_t aLength=0, bLength=0;
+	index_t aLength=0, bLength=0;
 	char* a=((CStringFeatures<char>*) lhs)->get_feature_vector(idx_a, aLength,
 			free_a);
 	char* b=((CStringFeatures<char>*) rhs)->get_feature_vector(idx_b, bLength,

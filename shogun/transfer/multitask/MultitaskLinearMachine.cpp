@@ -157,7 +157,7 @@ CBinaryLabels* CMultitaskLinearMachine::apply_locked_binary(SGVector<index_t> in
 	return new CBinaryLabels(result);
 }
 
-float64_t CMultitaskLinearMachine::apply_one(int32_t i)
+float64_t CMultitaskLinearMachine::apply_one(index_t i)
 {
 	SG_NOTIMPLEMENTED
 	return 0.0;

@@ -49,7 +49,7 @@
  For any problem, please contact: j.liu@asu.edu
  
  */
-void eppMatrix(double *X, double * V, int k, int n, double rho, double p);
+void eppMatrix(double *X, double * V, index_t k, index_t n, double rho, double p);
 #endif //USE_GPL_SHOGUN
 #endif   /* ----- #ifndef EPPMATRIXQ1_SLEP  ----- */
 

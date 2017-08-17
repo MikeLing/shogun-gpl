@@ -55,20 +55,20 @@
 
 */
 
-void eppVector(double *x, double * v, int* ind, int k, int n, double * rho, double rho_multiplier, double p){
-	int i, *iter_step;
+void eppVector(double *x, double * v, index_t* ind, index_t k, index_t n, double * rho, double rho_multiplier, double p){
+	index_t i, *iter_step;
 	double c0, c;
 	double *px, *pv;
 
-	iter_step=(int *)malloc(sizeof(int)*2);
+	iter_step=(index_t *)malloc(sizeof(index_t)*2);
 
 	c0=0;
 	for(i=0; i<k; i++)
 	{
-		px=x+(int)ind[i];
-		pv=v+(int)ind[i];
+		px=x+(index_t)ind[i];
+		pv=v+(index_t)ind[i];
 
-		epp(px, &c, iter_step, pv, (int)(ind[i+1]-ind[i]), rho[i]*rho_multiplier, p, c0);
+		epp(px, &c, iter_step, pv, (index_t)(ind[i+1]-ind[i]), rho[i]*rho_multiplier, p, c0);
 	}
 
 	free(iter_step);    

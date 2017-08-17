@@ -36,7 +36,7 @@ IGNORE_IN_CLASSLIST struct malsar_options
 	int max_iter;
 	int n_tasks;
 	int n_clusters;
-	SGVector<int>* tasks_indices;
+	SGVector<index_t>* tasks_indices;
 	malsar_loss loss;
 
 	static malsar_options default_options()

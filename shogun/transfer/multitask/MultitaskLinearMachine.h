@@ -111,7 +111,7 @@ class CMultitaskLinearMachine : public CLinearMachine
 #endif // SWIG // SWIG should skip this part
 
 		/** applies to one vector */
-		virtual float64_t apply_one(int32_t i);
+		virtual float64_t apply_one(index_t i);
 
 	protected:
 

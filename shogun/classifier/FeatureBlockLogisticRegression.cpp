@@ -231,7 +231,7 @@ bool CFeatureBlockLogisticRegression::train_machine(CFeatures* data)
 	return true;
 }
 
-float64_t CFeatureBlockLogisticRegression::apply_one(int32_t vec_idx)
+float64_t CFeatureBlockLogisticRegression::apply_one(index_t vec_idx)
 {
 	SGVector<float64_t> w = get_w();
 	return CMath::exp(-(features->dense_dot(vec_idx, w.vector, w.vlen) + bias));
@@ -250,14 +250,14 @@ SGVector<float64_t> CFeatureBlockLogisticRegression::apply_get_outputs(CFeatures
 	if (!features)
 		return SGVector<float64_t>();
 
-	int32_t num=features->get_num_vectors();
+	auto num=features->get_num_vectors();
 	SGVector<float64_t> w = get_w();
 	ASSERT(num>0)
 	ASSERT(w.vlen==features->get_dim_feature_space())
 
 	float64_t* out=SG_MALLOC(float64_t, num);
 	features->dense_dot_range(out, 0, num, NULL, w.vector, w.vlen, bias);
-	for (int32_t i=0; i<num; i++)
+	for (auto i=0; i<num; i++)
 		out[i] = 2.0/(1.0+CMath::exp(-out[i])) - 1.0;
 	return SGVector<float64_t>(out,num);
 }
